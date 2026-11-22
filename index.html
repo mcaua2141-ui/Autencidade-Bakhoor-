@@ -3,100 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Validação de Autenticidade</title>
+    <title>Validação de Autenticidade | wiemoth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #4f46e5;
-            --primaryhover: #4338ca;
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
             --success: #10b981;
-            --bg-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-            --card-bg: #ffffff;
-            --text-main: #1f2937;
-            --text-sub: #6b7280;
+            --error: #ef4444;
         }
 
         body {
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            background: var(--bg-gradient);
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top, #1a1710 0%, #0a0a0a 70%);
+            color: var(--text-main);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Cabeçalho Estilo Lattafa */
+        header {
+            width: 100%;
+            padding: 2.5rem 1rem;
             display: flex;
             justify-content: center;
             align-items: center;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+        }
+
+        .brand-name {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: lowercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        /* Cartão Principal */
+        main {
+            width: 90%;
+            max-width: 450px;
+            margin-top: 2rem;
         }
 
         .verification-card {
-            background: var(--card-bg);
-            width: 90%;
-            max-width: 420px;
-            padding: 2.5rem 2rem;
-            border-radius: 24px;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            background-color: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 3rem 2rem;
             text-align: center;
-            box-sizing: border-box;
-            transition: all 0.3s ease;
-        }
-
-        .brand-icon {
-            width: 64px;
-            height: 64px;
-            background: #eef2ff;
-            color: var(--primary);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 1.5rem;
-            font-size: 28px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
 
         h1 {
-            color: var(--text-main);
-            font-size: 1.5rem;
+            font-size: 1.6rem;
             margin-bottom: 0.5rem;
-            font-weight: 700;
+            color: var(--text-main);
         }
 
-        p {
-            color: var(--text-sub);
-            font-size: 0.95rem;
-            margin-bottom: 2rem;
+        p.subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 2.5rem;
         }
 
         .spinner-container {
             position: relative;
-            width: 80px;
-            height: 80px;
+            width: 70px;
+            height: 70px;
             margin: 0 auto 2rem;
         }
 
         .spinner {
             width: 100%;
             height: 100%;
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid var(--primary);
+            border: 4px solid #262626;
+            border-top: 4px solid var(--gold);
             border-radius: 50%;
-            animation: spin 1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
-            box-sizing: border-box;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
         .status-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            padding: 0.75rem 1.5rem;
+            gap: 10px;
+            padding: 0.8rem 1.8rem;
             border-radius: 50px;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.1rem;
             opacity: 0;
             transform: translateY(10px);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            transition: all 0.5s ease;
         }
 
         .status-badge.visible {
@@ -104,36 +132,62 @@
             transform: translateY(0);
         }
 
-        .status-badge.success {
-            background-color: #d1fae5;
-            color: #047857;
+        .status-valid {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
         }
 
-        .status-badge.error {
-            background-color: #fee2e2;
-            color: #b91c1c;
+        .status-invalid {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
         }
 
-        .icon-check::before { content: '✓'; font-size: 1.2rem; }
-        .icon-error::before { content: '✕'; font-size: 1.2rem; }
+        .icon-check::before { content: '✓'; font-size: 1.3rem; }
+        .icon-error::before { content: '✕'; font-size: 1.3rem; }
 
         .footer-text {
-            margin-top: 2rem;
-            font-size: 0.8rem;
-            color: #9ca3af;
+            margin-top: 3rem;
+            font-size: 0.75rem;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
         }
+
+        .hidden { display: none; }
     </style>
 </head>
 <body>
 
-     <div class="verification-card"><img src="https://raw.githubusercontent.com/mcaua2141-ui/Logo/refs/heads/main/image_60e7912b.jpg" alt="Logo Bakhoor"></div>
-
+    <header>
+        <div class="brand-container">
+            <!-- Sua logo inserida aqui -->
+            <img src="https://adjacent-lime-owgk2xpo.edgeone.dev/" alt="Logo wiemoth" class="brand-logo">
+            <span class="brand-name">wiemoth</span>
         </div>
+    </header>
 
-        <div class="footer-text">Sistema de Validação Segura</div>
-    </div>
+    <main>
+        <div class="verification-card">
+            <h1 id="title">Verificando Autenticidade</h1>
+            <p id="subtitle" class="subtitle">Analisando as credenciais de segurança do produto...</p>
+            
+            <div id="loader-box" class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="status-badge" class="status-badge">
+                <span id="status-icon"></span>
+                <span id="status-text"></span>
+            </div>
+
+            <div class="footer-text">Sistema de Validação Segura</div>
+        </div>
+    </main>
 
     <script>
+        // Cole aqui a URL do seu Web App do Google Sheets
         const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGxAz10kSU54GUfvGr2Xk0NmEX0PniL7T_xw2TyZGCftCD-aFHGuEvD5gbDMZX_2cB8A/exec';
 
         window.addEventListener('DOMContentLoaded', async () => {
@@ -154,11 +208,14 @@
                 
                 statusIcon.className = isSuccess ? 'icon-check' : 'icon-error';
                 statusBadge.className = `status-badge visible ${isSuccess ? 'success' : 'error'}`;
+                if(isSuccess) statusBadge.classList.add('status-valid');
+                else statusBadge.classList.add('status-invalid');
+                
                 statusText.textContent = message;
             }
 
             if (!code) {
-                showResult(false, "Código não identificado.");
+                showResult(false, "Código não identificado na URL.");
                 return;
             }
 
@@ -167,14 +224,10 @@
                     method: 'POST',
                     mode: 'no-cors',
                     cache: 'no-cache',
-                    headers: {
-                        'Content-Type': 'application/x-www-form-urlencoded'
-                    },
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: new URLSearchParams({ 'code': code })
                 });
 
-                // Como usamos no-cors, assumimos sucesso na entrega. 
-                // Se precisar tratar Válido/Inválido do retorno, a API deve operar com CORS ativado.
                 showResult(true, "Verificado - Produto Genuíno");
                 
             } catch (error) {
@@ -185,6 +238,3 @@
     </script>
 </body>
 </html>
-
-
-
