@@ -1,6 +1,35 @@
+<!DOCTYPE html>
 <html>
+<head>
+  <base target="_top">
+  <meta charset="UTF-8">
+  <title>Verificação de Autenticidade</title>
+</head>
 <body>
-<input id="code" type="text" placeholder="Digite seu código">
-<button https://script.google.com/macros/s/AKfycbyWiWZE_TRBp2Z1-XuINiLfZaQ0MZfp8uxJkZpKE2Dl3fw-DEVzV1GSoW7USW5ye2owcA/exec
+  <h2>Verificação de Produto</h2>
+  <div id="resultado">Verificando...</div>
+
+  <script>
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWiWZE_TRBp2Z1-XuINiLfZaQ0MZfp8uxJkZpKE2Dl3fw-DEVzV1GSoW7USW5ye2owcA/exec";
+
+    window.onload = function() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+      if (code) {
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          body: 'code=' + encodeURIComponent(code)
+        }).finally(() => {
+          document.getElementById('resultado').innerText = "Verificação concluída para o código: " + code;
+        });
+      } else {
+        document.getElementById('resultado').innerText = "Nenhum código fornecido na URL.";
+      }
+    };
+  </script>
 </body>
 </html>
