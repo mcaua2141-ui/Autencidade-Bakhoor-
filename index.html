@@ -1,94 +1,94 @@
+ ```html
 <!DOCTYPE html>
 <html>
 <head>
-  <base target="_top">
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verificação de Autenticidade</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .card {
-      background: white;
-      padding: 2.5rem;
-      border-radius: 15px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-      text-align: center;
-      max-width: 400px;
-      width: 90%;
-    }
-    h2 {
-      color: #333;
-      margin-bottom: 1.5rem;
-    }
-    .spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #3498db;
-      border-radius: 50%;
-      width: 40px;
-      height: 40px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 1rem;
-    }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    #resultado {
-      font-size: 1.1rem;
-      color: #555;
-      font-weight: 600;
-    }
-    .success {
-      color: #27ae60 !important;
-    }
-  </style>
+<base target="_top">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Verificação de Autenticidade</title>
+<style>
+body {
+font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+display: flex;
+justify-content: center;
+align-items: center;
+height: 100vh;
+margin: 0;
+}
+.card {
+background: white;
+padding: 2.5rem;
+border-radius: 15px;
+box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+text-align: center;
+max-width: 400px;
+width: 90%;
+}
+h2 {
+color: #333;
+margin-bottom: 1.5rem;
+}
+.spinner {
+border: 4px solid #f3f3f3;
+border-top: 4px solid #3498db;
+border-radius: 50%;
+width: 40px;
+height: 40px;
+animation: spin 1s linear infinite;
+margin: 0 auto 1rem;
+}
+@keyframes spin {
+0% { transform: rotate(0deg); }
+100% { transform: rotate(360deg); }
+}
+#resultado {
+font-size: 1.1rem;
+color: #555;
+font-weight: 600;
+}
+.success {
+color: #27ae60 !important;
+}
+</style>
 </head>
 <body>
-
-  <div class="card">
-    <h2>Verificação de Produto</h2>
-    <div id="loader" class="spinner"></div>
-    <div id="resultado">Validando autenticidade...</div>
-  </div>
-
-  <script>
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWiWZE_TRBp2Z1-XuINiLfZaQ0MZfp8uxJkZpKE2Dl3fw-DEVzV1GSoW7USW5ye2owcA/exec";";
-
-    window.onload = function() {
-      const urlParams = new URLSearchParams(window.location.search);
-      const code = urlParams.get('code');
-      const resultadoDiv = document.getElementById('resultado');
-      const loader = document.getElementById('loader');
-
-      if (code) {
-        fetch(WEB_APP_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
-          },
-          body: 'code=' + encodeURIComponent(code)
-        }).then(() => {
-          loader.style.display = 'none';
-          resultadoDiv.innerHTML = "✓<br>Autenticidade confirmada para o código:<br>" + code;
-          resultadoDiv.classList.add('success');
-        }).catch(() => {
-          loader.style.display = 'none';
-          resultadoDiv.innerText = "Erro ao conectar com o servidor.";
-        });
-      } else {
-        loader.style.display = 'none';
-        resultadoDiv.innerText = "Código não fornecido.";
-      }
-    };
-  </script>
+<div class="card">
+<h2>Verificação de Produto</h2>
+<div id="loader" class="spinner"></div>
+<div id="resultado">Validando a privacidade...</div>
+</div>
+<script>
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyWiWZE_TRBp2Z1-XuINiLfZaQ0MZfp8uxJkZpKE2Dl3fw-DEVzV1GSoW7USW5ye2owcA/exec";
+window.onload = function() {
+const urlParams = new URLSearchParams(window.location.search);
+const code = urlParams.get('code');
+const resultadoDiv = document.getElementById('resultado');
+const loader = document.getElementById('loader');
+if (code) {
+fetch(WEB_APP_URL, {
+method: 'POST',
+mode: 'no-cors',
+headers: {
+'Content-Type': 'application/x-www-form-urlencoded',
+},
+body: 'code=' + encodeURIComponent(code)
+}).then(() => {
+loader.style.display = 'none';
+resultadoDiv.innerHTML = "
+Autenticidade confirmada";
+resultadoDiv.classList.add('success');
+}).catch(() => {
+loader.style.display = 'none';
+resultadoDiv.innerText = "Erro ao conectar com o servidor.";
+});
+} else {
+loader.style.display = 'none';
+resultadoDiv.innerText = "Nenhum código fornecido.";
+}
+};
+</script>
 </body>
 </html>
+
+
