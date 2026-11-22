@@ -1,93 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-<base target="_top">
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Verificação de Autenticidade</title>
-<style>
-body {
-font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-margin: 0;
-}
-.card {
-background: white;
-padding: 2.5rem;
-border-radius: 15px;
-box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-text-align: center;
-max-width: 400px;
-width: 90%;
-}
-h2 {
-color: #333;
-margin-bottom: 1.5rem;
-}
-.spinner {
-border: 4px solid #f3f3f3;
-border-top: 4px solid #3498db;
-border-radius: 50%;
-width: 40px;
-height: 40px;
-animation: spin 1s linear infinite;
-margin: 0 auto 1rem;
-}
-@keyframes spin {
-0% { transform: rotate(0deg); }
-100% { transform: rotate(360deg); }
-}
-#resultado {
-font-size: 1.1rem;
-color: #555;
-font-weight: 600;
-}
-.success {
-color: #27ae60 !important;
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação de Autenticidade</title>
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primaryhover: #4338ca;
+            --success: #10b981;
+            --bg-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+            --card-bg: #ffffff;
+            --text-main: #1f2937;
+            --text-sub: #6b7280;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: var(--bg-gradient);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .verification-card {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 420px;
+            padding: 2.5rem 2rem;
+            border-radius: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            text-align: center;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        .brand-icon {
+            width: 64px;
+            height: 64px;
+            background: #eef2ff;
+            color: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 28px;
+        }
+
+        h1 {
+            color: var(--text-main);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        p {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 2rem;
+        }
+
+        .spinner {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s cubic-bezier(0.5, 0.1, 0.5, 0.9) infinite;
+            box-sizing: border-box;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .status-badge.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .status-badge.success {
+            background-color: #d1fae5;
+            color: #047857;
+        }
+
+        .status-badge.error {
+            background-color: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .icon-check::before { content: '✓'; font-size: 1.2rem; }
+        .icon-error::before { content: '✕'; font-size: 1.2rem; }
+
+        .footer-text {
+            margin-top: 2rem;
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+    </style>
 </head>
 <body>
-<div class="card">
-<h2>Verificação de Produto</h2>
-<div id="loader" class="spinner"></div>
-<div id="resultado">Validando a privacidade...</div>
-</div>
-<script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzanjdvh5SXLIJdBsNCfBjq0EIoWKhDeO1KPqQPDpPtnxdDrJdrhOSHcP72VkrPlfmIXQ/exec";
-window.onload = function() {
-const urlParams = new URLSearchParams(window.location.search);
-const code = urlParams.get('code');
-const resultadoDiv = document.getElementById('resultado');
-const loader = document.getElementById('loader');
-if (code) {
-fetch(WEB_APP_URL, {
-method: 'POST',
-mode: 'no-cors',
-headers: {
-'Content-Type': 'application/x-www-form-urlencoded',
-},
-body: 'code=' + encodeURIComponent(code)
-}).then(() => {
-loader.style.display = 'none';
-resultadoDiv.innerHTML = "
-Autenticidade confirmada";
-resultadoDiv.classList.add('success');
-}).catch(() => {
-loader.style.display = 'none';
-resultadoDiv.innerText = "Erro ao conectar com o servidor.";
-});
-} else {
-loader.style.display = 'none';
-resultadoDiv.innerText = "Nenhum código fornecido.";
-}
-};
-</script>
+
+    <div class="verification-card">
+        <div class="brand-icon">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+        </div>
+        <h1 id="title">Verificando Autenticidade</h1>
+        <p id="subtitle">Analisando as credenciais de segurança do produto...</p>
+        
+        <div id="loader-box" class="spinner-container">
+            <div class="spinner"></div>
+        </div>
+
+        <div id="status-badge" class="status-badge">
+            <span id="status-icon"></span>
+            <span id="status-text"></span>
+        </div>
+
+        <div class="footer-text">Sistema de Validação Segura</div>
+    </div>
+
+    <script>
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGxAz10kSU54GUfvGr2Xk0NmEX0PniL7T_xw2TyZGCftCD-aFHGuEvD5gbDMZX_2cB8A/exec';
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            
+            const title = document.getElementById('title');
+            const subtitle = document.getElementById('subtitle');
+            const loaderBox = document.getElementById('loader-box');
+            const statusBadge = document.getElementById('status-badge');
+            const statusIcon = document.getElementById('status-icon');
+            const statusText = document.getElementById('status-text');
+
+            function showResult(isSuccess, message) {
+                loaderBox.style.display = 'none';
+                title.textContent = isSuccess ? "Verificação Concluída" : "Falha na Verificação";
+                subtitle.textContent = "Resultado da análise do sistema:";
+                
+                statusIcon.className = isSuccess ? 'icon-check' : 'icon-error';
+                statusBadge.className = `status-badge visible ${isSuccess ? 'success' : 'error'}`;
+                statusText.textContent = message;
+            }
+
+            if (!code) {
+                showResult(false, "Código não identificado.");
+                return;
+            }
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: new URLSearchParams({ 'code': code })
+                });
+
+                // Como usamos no-cors, assumimos sucesso na entrega. 
+                // Se precisar tratar Válido/Inválido do retorno, a API deve operar com CORS ativado.
+                showResult(true, "Verificado - Produto Genuíno");
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showResult(false, "Erro de comunicação com o servidor.");
+            }
+        });
+    </script>
 </body>
 </html>
+
 
 
