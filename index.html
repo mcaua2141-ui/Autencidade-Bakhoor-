@@ -87,3 +87,244 @@
     </script>
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validação de Autenticidade | wiemoth</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0a0a0a;
+            --card-bg: #141414;
+            --gold: #d4af37;
+            --gold-light: #f3e5ab;
+            --text-main: #ffffff;
+            --text-muted: #a3a3a3;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            background-color: var(--bg-dark);
+            background-image: radial-gradient(circle at top, #1a1710 0%, #0a0a0a 70%);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header {
+            width: 100%;
+            padding: 2.5rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(20, 20, 20, 0.8);
+            padding: 10px 25px;
+            border-radius: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        .brand-logo {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+            border-radius: 50%;
+            border: 1px solid var(--gold);
+        }
+
+        .brand-name {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            color: var(--gold);
+            font-size: 2rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-transform: lowercase;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+        }
+
+        main {
+            width: 90%;
+            max-width: 450px;
+            margin-top: 2rem;
+        }
+
+        .verification-card {
+            background-color: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.9rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-main);
+        }
+
+        p.subtitle {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .spinner-container {
+            position: relative;
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 2rem;
+        }
+
+        .spinner {
+            width: 100%;
+            height: 100%;
+            border: 4px solid #262626;
+            border-top: 4px solid var(--gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-weight: 600;
+            font-size: 1.3rem;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.5s ease;
+        }
+
+        .status-badge.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .status-valid {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-invalid {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .icon-check::before { content: '✓'; font-size: 1.3rem; }
+        .icon-error::before { content: '✕'; font-size: 1.3rem; }
+
+        .footer-text {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            margin-top: 3rem;
+            font-size: 0.9rem;
+            color: #666;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-container">
+            <img src="https://s10.aconvert.com/convert/p3r68-cdx67/a183e-8fr12.svg" alt="Logo wiemoth" class="brand-logo">
+            <span class="brand-name">wiemoth</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="verification-card">
+            <h1 id="title">Verificando Autenticidade</h1>
+            <p id="subtitle" class="subtitle">Analisando as credenciais de segurança do produto...</p>
+            
+            <div id="loader-box" class="spinner-container">
+                <div class="spinner"></div>
+            </div>
+
+            <div id="status-badge" class="status-badge">
+                <span id="status-icon"></span>
+                <span id="status-text"></span>
+            </div>
+
+            <div class="footer-text">Sistema de Validação Segura</div>
+        </div>
+    </main>
+
+    <script>
+        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGxAz10kSU54GUfvGr2Xk0NmEX0PniL7T_xw2TyZGCftCD-aFHGuEvD5gbDMZX_2cB8A/exec';
+
+        window.addEventListener('DOMContentLoaded', async () => {
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get('code');
+            
+            const title = document.getElementById('title');
+            const subtitle = document.getElementById('subtitle');
+            const loaderBox = document.getElementById('loader-box');
+            const statusBadge = document.getElementById('status-badge');
+            const statusIcon = document.getElementById('status-icon');
+            const statusText = document.getElementById('status-text');
+
+            function showResult(isSuccess, message) {
+                loaderBox.style.display = 'none';
+                title.textContent = isSuccess ? "Verificação Concluída" : "Falha na Verificação";
+                subtitle.textContent = "Resultado da análise do sistema:";
+                
+                statusIcon.className = isSuccess ? 'icon-check' : 'icon-error';
+                statusBadge.className = `status-badge visible ${isSuccess ? 'success' : 'error'}`;
+                if(isSuccess) statusBadge.classList.add('status-valid');
+                else statusBadge.classList.add('status-invalid');
+                
+                statusText.textContent = message;
+            }
+
+            if (!code) {
+                showResult(false, "Código não identificado na URL.");
+                return;
+            }
+
+            try {
+                const response = await fetch(WEB_APP_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ 'code': code })
+                });
+
+                showResult(true, "Verificado - Produto Genuíno");
+                
+            } catch (error) {
+                console.error('Erro:', error);
+                showResult(false, "Erro de comunicação com o servidor.");
+            }
+        });
+    </script>
+</body>
+</html>
