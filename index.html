@@ -17,6 +17,10 @@
             --error: #ef4444;
         }
 
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             margin: 0;
             padding: 0;
@@ -32,7 +36,7 @@
 
         header {
             width: 100%;
-            padding: 2.5rem 1rem;
+            padding: 2.5rem 1rem 1.5rem;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -42,7 +46,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            background: rgba(20, 20, 20, 0.8);
+            background: rgba(20, 20, 20, 0.85);
             padding: 10px 25px;
             border-radius: 50px;
             border: 1px solid rgba(212, 175, 55, 0.3);
@@ -53,8 +57,6 @@
             width: 45px;
             height: 45px;
             object-fit: contain;
-            border-radius: 50%;
-            border: 1px solid var(--gold);
         }
 
         .brand-name {
@@ -70,172 +72,60 @@
         main {
             width: 90%;
             max-width: 450px;
-            margin-top: 2rem;
+            margin-top: 1.5rem;
+            margin-bottom: 2rem;
         }
 
-        .verification-card {
+        /* Tela de Segurança Inicial */
+        .gate-card {
             background-color: var(--card-bg);
-            border: 1px solid rgba(212, 175, 55, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.25);
             border-radius: 20px;
-            padding: 3rem 2rem;
-            text-align: center;
+            padding: 2.5rem 2rem;
+            text-align: left;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8);
         }
 
-        h1 {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            font-size: 1.9rem;
+        .gate-domain {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--text-main);
+            color: var(--gold);
+            margin: 0 0 0.75rem 0;
+            letter-spacing: 0.3px;
         }
 
-        p.subtitle {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            color: var(--text-muted);
+        .gate-heading {
+            font-family: 'Montserrat', sans-serif;
             font-size: 1.15rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .spinner-container {
-            position: relative;
-            width: 70px;
-            height: 70px;
-            margin: 0 auto 2rem;
-        }
-
-        .spinner {
-            width: 100%;
-            height: 100%;
-            border: 4px solid #262626;
-            border-top: 4px solid var(--gold);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-
-        .status-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 0.8rem 1.8rem;
-            border-radius: 50px;
-            font-family: 'Cormorant Garamond', Georgia, serif;
             font-weight: 600;
-            font-size: 1.3rem;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: all 0.5s ease;
+            color: var(--text-main);
+            margin: 0 0 0.75rem 0;
+            line-height: 1.4;
         }
 
-        .status-badge.visible {
-            opacity: 1;
-            transform: translateY(0);
+        .gate-description {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            font-weight: 300;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin: 0 0 1.8rem 0;
         }
 
-        .status-valid {
-            background-color: rgba(16, 185, 129, 0.15);
-            color: #34d399;
-            border: 1px solid rgba(16, 185, 129, 0.3);
+        .challenge-box {
+            background-color: #1c1c1c;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            border-radius: 8px;
+            padding: 1rem 1.1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
         }
 
-        .status-invalid {
-            background-color: rgba(239, 68, 68, 0.15);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .icon-check::before { content: '✓'; font-size: 1.3rem; }
-        .icon-error::before { content: '✕'; font-size: 1.3rem; }
-
-        .footer-text {
-            font-family: 'Cormorant Garamond', Georgia, serif;
-            margin-top: 3rem;
-            font-size: 0.9rem;
-            color: #666;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .hidden { display: none; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="brand-container">
-            <img src="https://kommodo.ai/i/RvCwrfpncUGIu0pZ4S9z" alt="Logo wiemoth" class="brand-logo">
-            <span class="brand-name">wiemoth</span>
-        </div>
-    </header>
-
-    <main>
-        <div class="verification-card">
-            <h1 id="title">Verificando Autenticidade</h1>
-            <p id="subtitle" class="subtitle">Analisando as credenciais de segurança do produto...</p>
-            
-            <div id="loader-box" class="spinner-container">
-                <div class="spinner"></div>
-            </div>
-
-            <div id="status-badge" class="status-badge">
-                <span id="status-icon"></span>
-                <span id="status-text"></span>
-            </div>
-
-            <div class="footer-text">Sistema de Validação Segura</div>
-        </div>
-    </main>
-
-    <script>
-        const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbxGxAz10kSU54GUfvGr2Xk0NmEX0PniL7T_xw2TyZGCftCD-aFHGuEvD5gbDMZX_2cB8A/exec';
-
-        window.addEventListener('DOMContentLoaded', async () => {
-            const params = new URLSearchParams(window.location.search);
-            const code = params.get('code');
-            
-            const title = document.getElementById('title');
-            const subtitle = document.getElementById('subtitle');
-            const loaderBox = document.getElementById('loader-box');
-            const statusBadge = document.getElementById('status-badge');
-            const statusIcon = document.getElementById('status-icon');
-            const statusText = document.getElementById('status-text');
-
-            function showResult(isSuccess, message) {
-                loaderBox.style.display = 'none';
-                title.textContent = isSuccess ? "Verificação Concluída" : "Falha na Verificação";
-                subtitle.textContent = "Resultado da análise do sistema:";
-                
-                statusIcon.className = isSuccess ? 'icon-check' : 'icon-error';
-                statusBadge.className = `status-badge visible ${isSuccess ? 'success' : 'error'}`;
-                if(isSuccess) statusBadge.classList.add('status-valid');
-                else statusBadge.classList.add('status-invalid');
-                
-                statusText.textContent = message;
-            }
-
-            if (!code) {
-                showResult(false, "Código não identificado na URL.");
-                return;
-            }
-
-            try {
-                const response = await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    cache: 'no-cache',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: new URLSearchParams({ 'code': code })
-                });
-
-                showResult(true, "Verificado - Produto Genuíno");
-                
-            } catch (error) {
-                console.error('Erro:', error);
-                showResult(false, "Erro de comunicação com o servidor.");
-            }
-        });
-    </script>
-</body>
-</html>
+        .challenge-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        
